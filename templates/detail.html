@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+{% block content %}
+ <a href="/films/"><button>Back</button></a>
+ <h4>Title - {{ film_id.title }}</h4>
+ <p>Producer - {{ film_id.producer }}</p>
+ <p>Rating - {{ film_id.rate }}</p>
+ <p>Watch time - {{ film_id.time}}</p>
+ <hr/>
+<h2>Comments</h2>
+{% if user.is_authenticated %}
+    <div class="form-content" style="margin-top: 20px;padding-bottom: 30px; padding-left: 200px;padding-right: 200px">
+        <form action="/films/{{ film_id.id }}/" method="post">
+            {% csrf_token %}
+            <p>
+                <input required type="text" class="form-control"
+                placeholder="Текст" name="text">
+            </p>
+            <p>
+                <input required type="text" class="form-control"
+                placeholder="Оценка" name="rate_user">
+            </p>
+            <input type="submit" class="btn btn-success">
+        </form>
+    </div>
+{% endif %}
+{% for i in comments %}
+    <p>{{ i.text }}</p>
+    <p>{{i.rate_user }}</p>
+    <p>{{i.created_at }}</p>
+    <hr>
+{% endfor %}
+
+{% endblock %}
